@@ -1,0 +1,89 @@
+﻿@page
+@model BookList.Pages.BookLists.IndexModel
+<br />
+<div class="container row p-0 m-0 ">
+    <div class="col-6">
+        <h2 class="text-info"> Kitap Listesi</h2>
+    </div>
+    <div class="col-3">
+        <a asp-page="CreateBook" class="btn btn-info form-control  text-white">Yeni Kitap Oluştur</a>
+    </div>
+    <div class="col-3">
+        <a asp-page="UpdateAdd" class="btn btn-info form-control  text-white">Yeni Oluştur(GüncelleEkle)</a>
+    </div>
+    <div class="col-12 border p-3 mt-3 ">
+        <form method="post">
+            @if (Model.Books.Count() > 0)
+            {
+                <table class=" table table-striped border    ">
+                    <tr class="table-secondary">
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().BookName">
+
+                            </label>
+
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(a=>a.Books.FirstOrDefault().Author)*@
+                            <label asp-for="Books.FirstOrDefault().Author"></label>
+                        </th>
+                        <th>
+                            <label asp-for="Books.FirstOrDefault().ISBN"></label>
+                        </th>
+                        <th>İŞLEMLER</th>
+
+                    </tr>
+                    @foreach (var item in Model.Books)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(a => item.BookName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(a => item.Author)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(a => item.ISBN)
+                            </td>
+                            <td>
+                                <button asp-page-handler="Delete" asp-route-id="@item.Id" onclick="return confirm('İlgili veriyi silmek istediğinizden emin misiniz?')" class="btn btn-danger btn-sm">Sil</button>
+                                <a asp-page="Setting" asp-route-id="@item.Id" class="btn btn-success btn-sm text-white">Düzenle</a>
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+
+            }
+            else
+            {
+                <p>Listelenecek kitap bulunamadı...</p>
+
+            }
+        </form>
+
+    </div>
+    @*Yeni datatable ile gösterimni ekledim*@
+    <div class="col-12" style="text-align:center"></div>
+    <br />
+    <span class="h3 text-info">2.Gösterim Alanı </span>
+    <br />
+    <br />
+    <div class="col-12 border p-3">
+        <table id="DT_load" class="table table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Kitap Adı</th>
+                    <th>Yazar Adı</th>
+                    <th>ISBN</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+        </table>
+
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/bookList.js"></script>
+}
